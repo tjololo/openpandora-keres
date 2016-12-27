@@ -1,0 +1,141 @@
+{
+  "kind": "PodList",
+  "apiVersion": "v1",
+  "metadata": {
+    "selfLink": "/api/v1/namespaces/myproject/pods",
+    "resourceVersion": "7489"
+  },
+  "items": [
+    {
+      "metadata": {
+        "name": "test-1-so3ln",
+        "generateName": "test-1-",
+        "namespace": "myproject",
+        "selfLink": "/api/v1/namespaces/myproject/pods/test-1-so3ln",
+        "uid": "77ef4946-cb6c-11e6-8030-54ee750345ef",
+        "resourceVersion": "7469",
+        "creationTimestamp": "2016-12-26T13:09:01Z",
+        "labels": {
+          "app": "test",
+          "deployment": "test-1",
+          "deploymentconfig": "test"
+        },
+        "annotations": {
+          "kubernetes.io/created-by": "{\"kind\":\"SerializedReference\",\"apiVersion\":\"v1\",\"reference\":{\"kind\":\"ReplicationController\",\"namespace\":\"myproject\",\"name\":\"test-1\",\"uid\":\"6156de79-c6ee-11e6-bd73-54ee750345ef\",\"apiVersion\":\"v1\",\"resourceVersion\":\"7331\"}}\n",
+          "openshift.io/deployment-config.latest-version": "1",
+          "openshift.io/deployment-config.name": "test",
+          "openshift.io/deployment.name": "test-1",
+          "openshift.io/scc": "restricted"
+        }
+      },
+      "spec": {
+        "volumes": [
+          {
+            "name": "default-token-r76dn",
+            "secret": {
+              "secretName": "default-token-r76dn",
+              "defaultMode": 420
+            }
+          }
+        ],
+        "containers": [
+          {
+            "name": "test",
+            "image": "172.30.254.226:5000/myproject/test@sha256:25c2803ebb69faf14ebfd2995154a94d69b1ce947555ea3b07d1d613e6d5704a",
+            "ports": [
+              {
+                "containerPort": 8080,
+                "protocol": "TCP"
+              }
+            ],
+            "resources": {},
+            "volumeMounts": [
+              {
+                "name": "default-token-r76dn",
+                "readOnly": true,
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount"
+              }
+            ],
+            "terminationMessagePath": "/dev/termination-log",
+            "imagePullPolicy": "Always",
+            "securityContext": {
+              "capabilities": {
+                "drop": [
+                  "KILL",
+                  "MKNOD",
+                  "SETGID",
+                  "SETUID",
+                  "SYS_CHROOT"
+                ]
+              },
+              "privileged": false,
+              "seLinuxOptions": {
+                "level": "s0:c6,c5"
+              },
+              "runAsUser": 1000040000
+            }
+          }
+        ],
+        "restartPolicy": "Always",
+        "terminationGracePeriodSeconds": 30,
+        "dnsPolicy": "ClusterFirst",
+        "serviceAccountName": "default",
+        "serviceAccount": "default",
+        "nodeName": "192.168.1.115",
+        "securityContext": {
+          "seLinuxOptions": {
+            "level": "s0:c6,c5"
+          },
+          "fsGroup": 1000040000
+        },
+        "imagePullSecrets": [
+          {
+            "name": "default-dockercfg-1b8h0"
+          }
+        ]
+      },
+      "status": {
+        "phase": "Running",
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2016-12-26T13:09:01Z"
+          },
+          {
+            "type": "Ready",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2016-12-26T13:09:24Z"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2016-12-26T13:09:01Z"
+          }
+        ],
+        "hostIP": "192.168.1.115",
+        "podIP": "172.17.0.3",
+        "startTime": "2016-12-26T13:09:01Z",
+        "containerStatuses": [
+          {
+            "name": "test",
+            "state": {
+              "running": {
+                "startedAt": "2016-12-26T13:09:24Z"
+              }
+            },
+            "lastState": {},
+            "ready": true,
+            "restartCount": 0,
+            "image": "172.30.254.226:5000/myproject/test@sha256:25c2803ebb69faf14ebfd2995154a94d69b1ce947555ea3b07d1d613e6d5704a",
+            "imageID": "docker://sha256:f078b8f6d1537882976b49e5d9f15d5c5a8f71dce693ed6b1ad31f3f07e8f34d",
+            "containerID": "docker://a8fd612a5283770526bda1ddd34a550aa006ae64b7c80e06a6b53de24b682f16"
+          }
+        ]
+      }
+    }
+  ]
+}

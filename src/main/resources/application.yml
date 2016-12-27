@@ -1,0 +1,7 @@
+net:
+  tjololo:
+    openshift:
+      havoc:
+        master:
+          uri: 'https://localhost:8443'
+        token: ${OPENSHIFT_TOKEN:<default-token>}
