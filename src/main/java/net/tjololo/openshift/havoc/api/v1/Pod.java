@@ -28,13 +28,4 @@ public class Pod {
     public String getKilllink() {
         return killlink;
     }
-
-    @Override
-    public String toString() {
-        return "Pod{" +
-                "name='" + name + '\'' +
-                ", kubeselflink='" + kubeselflink + '\'' +
-                ", killlink='" + killlink + '\'' +
-                '}';
-    }
 }
