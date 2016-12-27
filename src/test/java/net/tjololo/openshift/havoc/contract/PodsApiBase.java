@@ -29,7 +29,7 @@ public class PodsApiBase {
     private KubernetesDiscovery kubernetesDiscovery;
 
     @Before
-    public void setup() {
+    public void setUp() {
         setupListMocks();
         setupKillMocks();
         RestAssuredMockMvc.standaloneSetup(new PodsController(kubernetesDiscovery, "https://10.2.2.2:8443"));
