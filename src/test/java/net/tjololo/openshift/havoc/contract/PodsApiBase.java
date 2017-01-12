@@ -39,22 +39,29 @@ public class PodsApiBase {
         when(kubernetesDiscovery.listPods("https://10.2.2.2:8443", "empty"))
                 .thenReturn(new KubeResponse("PodList", Collections.emptyList()));
         ArrayList<Item> items = getItems(
-                getItem("test-pod-1-adfx2", "Running"),
-                getItem("test-pod-1-build", "Failed")
+                getItem("test-pod-1-adfx2", "Running", "test"),
+                getItem("test-pod-1-build", "Failed", "test")
         );
         when(kubernetesDiscovery.listPods("https://10.2.2.2:8443", "test"))
                 .thenReturn(new KubeResponse("PodList", items));
         ArrayList<Item> items2 = getItems(
-                getItem("newbase-pod-1-adfx2", "Running"),
-                getItem("newbase-pod-1-build", "Failed")
+                getItem("newbase-pod-1-adfx2", "Running", "test"),
+                getItem("newbase-pod-1-build", "Failed", "test")
         );
         when(kubernetesDiscovery.listPods("https://openshift.org:8443", "test"))
                 .thenReturn(new KubeResponse("PodList", items2));
+
+        ArrayList<Item> items3 = getItems(
+                getItem("random-pod-1-adfx2", "Running", "randompod"),
+                getItem("random-pod-2-adfx2", "Failed", "randompod")
+        );
+        when(kubernetesDiscovery.listPods("https://10.2.2.2:8443", "randompod"))
+                .thenReturn(new KubeResponse("PodList", items3));
     }
 
-    private Item getItem(String name, String phase) {
+    private Item getItem(String name, String phase, String namespace) {
         return new Item(
-                new Metadata(name, "/api/v1/namespaces/test/pods/" + name, "test"),
+                new Metadata(name, "/api/v1/namespaces/" + namespace + "/pods/" + name, namespace),
                 new Status(phase)
         );
     }

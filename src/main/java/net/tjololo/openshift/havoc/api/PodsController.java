@@ -7,10 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -29,6 +32,19 @@ public class PodsController {
         this.defaultURI = defaultURI;
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/pod/random/{namespace}", consumes = PODS_JSON_V1, produces = PODS_JSON_V1)
+    public ResponseEntity<Pod> getRandomRunningPod(@RequestParam(value = "uri", required = false) String overrideURI, @PathVariable String namespace) {
+        List<Pod> runningPods = getRunningPods(overrideURI, namespace);
+        if (runningPods.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(
+                runningPods.get(
+                        getRandomIndex(runningPods.size())
+                )
+        );
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/pods/{namespace}", consumes = PODS_JSON_V1, produces = PODS_JSON_V1)
     public List<Pod> getRunningPods(@RequestParam(value = "uri", required = false) String overrideURI, @PathVariable String namespace) {
         List<Pod> podList = kubernetesDiscovery.listPods(getURI(overrideURI), namespace).getItems().stream()
@@ -37,7 +53,7 @@ public class PodsController {
                         new Pod(
                                 i.getMetadata().getName(),
                                 i.getMetadata().getSelfLink(),
-                                "/pods/kill/" + i.getMetadata().getNamespace() + "/" + i.getMetadata().getName()
+                                getKilllink(i.getMetadata().getNamespace(), i.getMetadata().getName())
                         )
                 )
                 .collect(Collectors.toList());
@@ -50,10 +66,19 @@ public class PodsController {
         return new Status(kubernetesDiscovery.killPod(getURI(overrideURI), namespace, podname));
     }
 
+    private int getRandomIndex(int size) {
+        Random random = new Random();
+        return random.nextInt(size);
+    }
+
     private String getURI(@RequestParam(value = "uri", required = false) String overrideURI) {
         if (StringUtils.isEmpty(overrideURI)) {
             return defaultURI;
         }
         return overrideURI;
+    }
+
+    private String getKilllink(String namespace, String podname) {
+        return "/pods/kill/" + namespace + "/" + podname;
     }
 }
