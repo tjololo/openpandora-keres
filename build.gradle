@@ -61,9 +61,3 @@ buildscript {
         }
     }
 }
-jacocoTestReport {
-    reports {
-        xml.enabled true
-        html.enabled false
-    }
-}
